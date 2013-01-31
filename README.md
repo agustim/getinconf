@@ -25,6 +25,8 @@ In a webserver path:
 	echo "create database <mydatabase>" | mysql -u root -p
 	# Rename config database file
 	mv Config/database.php.default Config/database.php
+	# Change databasename
+	sed -i -r "s/default_database_name/<mydatabase>/" Config/database.php
 	# Create Table
 	Console/cake schema create --file users.php
 	# Change 'Security.salt' and 'Security.cipherSeed' in file <myapp>/app/Config/core.php:
