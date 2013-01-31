@@ -57,7 +57,6 @@ class AppController extends Controller {
       } else {
         $this->set('theme',$this->Session->read('Layout.theme'));
       }
-      $this->Auth->allow('index', 'view');
       parent::beforeFilter();
   }
 }
