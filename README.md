@@ -22,7 +22,7 @@ In a webserver path:
 	cd <myapp>
 	cd app
 	# Create database
-	echo "create database bootcakestrap" | mysql -u root -p
+	echo "create database <mydatabase>" | mysql -u root -p
 	# Rename config database file
 	mv Config/database.php.default Config/database.php
 	# Create Table
