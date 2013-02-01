@@ -11,6 +11,9 @@
                         'options'=>array('admin'=>'admin','author'=>'author')
                                 ));
         echo $this->Form->input('email');
+        echo $this->Form->input('active', array('type'=>'select',
+                        'options'=>array(0=>'active',1=>'inactive',2=>'banner')
+                                ));
     ?>
     </fieldset>
 <?php echo $this->Form->end(array('label'=>__('Submit'),'class'=>'btn btn-primar','div'=>array('class'=>'controls'))); ?>

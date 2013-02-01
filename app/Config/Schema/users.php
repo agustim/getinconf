@@ -14,6 +14,7 @@ class AppSchema extends CakeSchema {
 		'password' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 50),
 		'role' => array('type' => 'string', 'null' => true, 'default' => null, 'length' => 20),
 		'email' => array('type' => 'string', 'null' => false, 'default' => null, 'length' => 80),
+		'active' => array('type' => 'integer', 'null' => false, 'default' => 1, 'length' => 80),
 		'created' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null),
 		'indexes' => array(

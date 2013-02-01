@@ -93,15 +93,17 @@ class UsersController extends AppController {
         if ($this->request->is('post')) 
         {
             $this->User->create();
-            if ($this->User->save($this->request->data)) 
+            $data = $this->request->data;
+            $data['User']['active'] = 1;
+            $data['User']['role'] = 'author';
+            if ($this->User->save($data)) 
             {
                 $this->Session->setFlash(__('The user has been saved'),'flash_success');
-                $this->redirect(array('controller' => 'pages','action' => 'home'));
+                $this->redirect('/');
             } 
             else 
             {   
-                # Create a loop with validation errors
-                $this->Error->set( $this->User->invalidFields() );
+                $this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'flash_fail');
             }
         }
     }
