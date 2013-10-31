@@ -45,7 +45,7 @@ class User extends AppModel {
                     $this->data[$this->alias]['confirm_password']) == 0);
     }
 
-    public function beforeSave() {
+    public function beforeSave( $options = array() ) {
         if ($this->data[$this->alias]['password'] == "") {
             unset($this->data[$this->alias]['password']);
             unset($this->data[$this->alias]['confirm_password']);

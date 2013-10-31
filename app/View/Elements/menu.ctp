@@ -23,6 +23,11 @@
           </li>
           <?php } ?>
 
+          <li class="<?php echo $this->params->controller == 'networks' && $this->action == 'index' ? 'active' : '';  ?>">
+            <?php echo $this->Html->link(__('Networks'),array('controller' => 'networks','action' => 'index')) ?>
+          </li>
+
+
           <?php } else { ?>
           <li class="<?php echo $this->params->controller == 'users' && $this->action == 'login' ? 'active' : ''; ?>">
             <?php echo $this->Html->link(__('Login'),array('controller' => 'users','action' => 'login')) ?>

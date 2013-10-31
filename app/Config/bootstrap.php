@@ -185,9 +185,9 @@ CakePlugin::load('DebugKit');
 
 Configure::write(
 	'Application', array(
-		'name' => 'BootStrap in cake ' . Configure::version(),
-		'client' => 'BootCakeStrap',
-		'client_url' => 'http://github.com/agustim/bootcakestrap',
+		'name' => 'GeTinConf',
+		'client' => 'GeTinConf',
+		'client_url' => 'http://github.com/agustim/getinconf',
 		'from_email' => 'from@your_app_domain.com',
 		'contact_mail' => 'contact@your_app_domain.com'
 	)
