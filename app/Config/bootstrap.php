@@ -195,6 +195,6 @@ Configure::write(
 
 Configure::write(
 	'Layout', array(
-		'theme' => 'default'
+		'theme' => 'united'
 	)
 );
