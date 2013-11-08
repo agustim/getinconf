@@ -85,7 +85,7 @@ class NetworksController extends AppController {
 		if ($this->request->is('post') || $this->request->is('put')) {
 			if ($this->Network->save($this->request->data)) {
 				$this->Session->setFlash(__('The network has been saved'));
-				//$this->redirect(array('action' => 'index'));
+				$this->redirect(array('action' => 'index'));
 				$this->redirect($this->referer());
 			} else {
 				$this->Session->setFlash(__('The network could not be saved. Please, try again.'));

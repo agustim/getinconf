@@ -6,7 +6,6 @@
 			<th><?php echo $this->Paginator->sort('ip'); ?></th>
 			<th><?php echo $this->Paginator->sort('netmask'); ?></th>
 			<th><?php echo $this->Paginator->sort('bitmask'); ?></th>
-			<th><?php echo $this->Paginator->sort('automaticconnectto','Automatic'); ?></th>
 			<th><?php echo $this->Paginator->sort('trustednodes','Trusted'); ?></th>
 			<th class="actions"><?php echo __(''); ?></th>
 	</tr>
@@ -17,7 +16,6 @@
 		<td><?php echo h($network['Network']['ip']); ?>&nbsp;</td>
 		<td><?php echo h($network['Network']['netmask']); ?>&nbsp;</td>
 		<td><?php echo h($network['Network']['bitmask']); ?>&nbsp;</td>
-		<td><?php echo ($network['Network']['automaticconnectto'])?"Yes":"No"; ?></td>
 		<td><?php echo ($network['Network']['trustednodes'])?"Yes":"No"; ?></td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $network['Network']['id']), array('class'=> 'btn')); ?>

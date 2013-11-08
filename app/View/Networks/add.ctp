@@ -8,7 +8,6 @@
 		echo $this->Form->input('netmask');
 		echo $this->Form->input('bitmask');
                 echo $this->Form->input('internalkey',array('label'=>'Internal Key'));
-                echo $this->Form->input('automaticconnectto',array('label'=>'Automatic ConnectTo'));
                 echo $this->Form->input('trustednodes',array('label'=>'Trusted Nodes'));
 	?>
       <div class="form-actions">

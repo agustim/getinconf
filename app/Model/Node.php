@@ -32,21 +32,6 @@ class Node extends AppModel {
 		)
 	);
 
-	public $hasMany = array(
-		'Connectto' => array(
-			'className' => 'Connect',
-			'foreignKey' => 'node_connectto_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
 
 	public function beforeSave( $options = array() ) {
 		$this->Network->recursive = 0;

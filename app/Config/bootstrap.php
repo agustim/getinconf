@@ -185,8 +185,8 @@ CakePlugin::load('DebugKit');
 
 Configure::write(
 	'Application', array(
-		'name' => 'GeTinConf',
-		'client' => 'GeTinConf',
+		'name' => 'GeTINConf',
+		'client' => 'GeTINConf',
 		'client_url' => 'http://github.com/agustim/getinconf',
 		'from_email' => 'from@your_app_domain.com',
 		'contact_mail' => 'contact@your_app_domain.com'

@@ -6,8 +6,10 @@
 			echo $this->Html->input( h($network['Network']['netmask']), array('label'=>'Netmask'));
 			echo $this->Html->input( h($network['Network']['bitmask']), array('label'=>'Bitmask'));
 			echo $this->Html->input( h($network['Network']['internalkey']), array('label'=>'Interal Key'));
-			echo $this->Html->input( h($network['Network']['automaticconnectto']), array('label'=>'Automatic ConnectTo', 'value'=>($network['Network']['automaticconnectto'])?__('Yes'):__('No')));
-			echo $this->Html->input( h($network['Network']['trustednodes']), array('label'=>'Trusted Nodes', 'value'=>($network['Network']['trustednodes'])?__('Yes'):__('No')));
+			//echo $this->Html->input( h($network['Network']['trustednodes']), array('label'=>'Trusted Nodes', 'type' => 'checkbox', 'value'=>($network['Network']['trustednodes'])?__('Yes'):__('No')));
+			echo '<div class="control-group"><label class="control-label">Trusted Nodes</label><div class="controls"><span class="';
+			echo ($network['Network']['trustednodes'])?'icon-ok':'icon-remove ';
+			echo '" ></span></div></div>';
 		?>
 </div>
 <div class="form-actions">
