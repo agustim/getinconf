@@ -39,9 +39,9 @@ class Node extends AppModel {
 		$this->data['Node']['hash_mac'] = md5(strtoupper(trim($this->data['Node']['mac'])).$net_key['Network']['internalkey'].$net_key['Network']['name']."\n");
 	}
 
-        public function isOwnedBy($node, $user) {
-                return (($user['role'] == 'admin') || ($this->field('id', array('id' => $node, 'user_id' => $user['id'])) === $node));
-        }
+    public function isOwnedBy($node, $user) {
+    	return (($user['role'] == 'admin') || ($this->field('id', array('id' => $node, 'user_id' => $user['id'])) === $node));
+    }
 
 }
 

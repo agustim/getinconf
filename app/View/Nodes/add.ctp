@@ -1,25 +1,24 @@
 <div class="nodes form">
-<?php echo $this->Form->create('Node'); ?>
+<?php echo $this->Form->create('Node', array('class' => 'form-horizontal')); ?>
 	<fieldset>
 		<legend><?php echo __('Add Node'); ?></legend>
 	<?php
 		echo $this->Form->input('name');
 		echo $this->Form->input('mac');
 		echo $this->Form->input('device');
-		echo $this->Form->input('rsakeypub');
-		echo $this->Form->input('ip');
+		echo $this->Form->input('rsakeypub', array('label'=>'RSA Public Key'));
+		echo $this->Form->input('ip', array('label'=>'Tinc IP'));
 		echo $this->Form->input('bitmask');
-		echo $this->Form->input('address');
-		echo $this->Form->input('is_gateway');
-		echo $this->Form->input('public_ip');
+		echo $this->Form->input('address', array('label'=>'IP Community Node'));
 	?>
+      <div class="form-actions">
+			<?php echo $this->Form->submit(__('Save'), array(
+			            'div' => false,
+			            'class' => 'btn',
+			        )); ?>
+			<?php echo $this->Html->link(__('Cancel'), array('controller' => 'networks', 'action' => 'view', $network_id), array('class'=>'btn'
+					)); ?>
+		</div>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('Back to Network'), array('controller' => 'networks', 'action' => 'view', $network_id)); ?></li>
-	</ul>
+<?php echo $this->Form->end(); ?>
 </div>

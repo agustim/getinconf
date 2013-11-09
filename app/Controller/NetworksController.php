@@ -49,7 +49,12 @@ class NetworksController extends AppController {
 		if (!$this->Network->exists()) {
 			throw new NotFoundException(__('Invalid network'));
 		}
-		$this->set('network', $this->Network->read(null, $id));
+		$network = $this->Network->read(null, $id);
+		if ($network['Network']['user_id'] != $this->Auth->user('id')){
+			$this->Session->setFlash(__('The network does not belong you.'), 'flash_fail');
+			$this->redirect(array('action' => 'index'));		
+		}
+		$this->set('network', $network);
 	}
 
 /**

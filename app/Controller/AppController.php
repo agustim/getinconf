@@ -37,14 +37,15 @@ class AppController extends Controller {
     'Session',
     'Html' => array('className' => 'TwitterBootstrap.BootstrapHtml'),
     'Form' => array('className' => 'TwitterBootstrap.BootstrapForm'),
-    'Paginator' => array('className' => 'TwitterBootstrap.BootstrapPaginator'),
+    'Paginator' => array('className' => 'TwitterBootstrap.BootstrapPaginator')
 	);
 
 	public $components = array(
     'Session',
     'Auth' => array(
         'loginRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
-        'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home')
+        'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home'),
+        'authorize' => 'Controller'
     ),
     'DebugKit.Toolbar'
   );
@@ -59,4 +60,8 @@ class AppController extends Controller {
       }
       parent::beforeFilter();
   }
+
+   public function isAuthorized($user) {
+
+   }
 }

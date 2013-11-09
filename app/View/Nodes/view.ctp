@@ -1,73 +1,29 @@
 <div class="nodes view">
-<h2><?php  echo __('Node'); ?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Name'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['name']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Mac'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['mac']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Device'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['device']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Rsakeypub'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['rsakeypub']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Ip'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['ip']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Bitmask'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['bitmask']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Address'); ?></dt>
-		<dd>
-			<?php echo h($node['Node']['address']); ?>
-			&nbsp;
-		</dd>
-                <dt><?php echo __('Is Gateway?'); ?></dt>
-                <dd>
-                        <?php echo ($node['Node']['is_gateway'])?__('Yes'):__('No'); ?>
-                        &nbsp;
-                </dd>
-                <dt><?php echo __('Public IP?'); ?></dt>
-                <dd>
-                        <?php echo ($node['Node']['public_ip'])?__('Yes'):__('No'); ?>
-                        &nbsp;
-                </dd>
-		<dt><?php echo __('Network'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($node['Network']['name'], array('controller' => 'networks', 'action' => 'view', $node['Network']['id'])); ?>
-			&nbsp;
-		</dd>
-                <dt><?php echo __('Hash_MAC'); ?></dt>
-                <dd>
-                        <?php echo h($node['Node']['hash_mac']); ?>
-                        &nbsp;
-                </dd>
-	</dl>
+<h2><?php echo h($node['Node']['name']); ?></h2>
+	<?php
+			echo $this->Html->create(); 
+			echo $this->Html->input( h($node['Node']['mac']), array('label'=>'MAC'));
+			echo $this->Html->input( h($node['Node']['device']), array('label'=>'Device'));
+			echo $this->Html->input( h($node['Node']['rsakeypub']), array('label'=>'RSA Public Key', 'type' => 'textarea'));
+			echo $this->Html->input( h($node['Node']['ip']), array('label'=>'Tinc IP'));
+			echo $this->Html->input( h($node['Node']['bitmask']), array('label'=>'Bitmask'));
+			echo $this->Html->input( h($node['Node']['address']), array('label'=>'IP Community Node'));
+			echo $this->Html->input(
+				$this->Html->link($node['Network']['name'], array('controller' => 'networks', 'action' => 'view', $node['Network']['id'])), 
+				array('label'=>'Network', 'type' => 'link')); 
+			echo $this->Html->input( h($node['Node']['hash_mac']), array('label'=>'MAC Hash (Internal)'));
+
+?>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Node'), array('action' => 'edit', $node['Node']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Node'), array('action' => 'delete', $node['Node']['id']), null, __('Are you sure you want to delete # %s?', $node['Node']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('Back to Network'), array('controller' => 'networks', 'action' => 'view', $node['Network']['id'])); ?> </li>
-	</ul>
+<div class="form-actions">
+	<?php echo $this->Html->link("<i class='icon-pencil'></i> ".__('Edit Node'), 
+			array('action' => 'edit', $node['Node']['id']),
+			array('class'=>'btn','title'=>__('Edit Node'),'escape' => false)); ?>
+	<?php echo $this->Form->postLink("<i class='icon-trash'></i> ".__('Delete Node'), 
+			array('action' => 'delete', $node['Node']['id']), 
+			array('class'=>'btn','title'=>__('Delete Node'),'escape' => false) , __('Are you sure you want to delete # %s?', $node['Node']['id'])); ?>
+	<?php echo $this->Html->link("<i class='icon-list'></i> ".__('List Nodes from Network'), 
+			array('controller'=>'networks','action' => 'view',$node['Network']['id']), 
+			array('class'=>'btn','title'=>__('List Nodes from Network'),'escape' => false));  ?>
 </div>
+

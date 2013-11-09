@@ -96,10 +96,40 @@ class BootstrapHtmlHelper extends HtmlHelper {
 
 	public function input($text, $options = array()){
 		$default = array (
-			'class' => 'input-xlarge uneditable-input',
-			'label' => null
+			'default' => array(
+				'class' => 'input-xlarge uneditable-input',
+				'label' => null
+				),
+			'checkbox' => array(
+				'label' => null
+				),
+			'textarea' => array(
+				'class' => 'input-xlarge',
+				'readonly' => 'readonly',
+				'label' => null,
+				'tagtype' => 'textarea'
+				),
+			'link' => array(
+				'label' => null
+				)
 		);
-		$options = array_merge($default, (array)$options);
+
+		if ( (! isset($options['type'])) || (! isset($default[$options['type']]) ) ) {
+			$type = 'default';
+		} else {
+			$type = $options['type'];
+			unset($options['type']);
+		}
+		
+		/* Define tagtype */
+		if (isset($default[$type]['tagtype'])) {
+			$tagtype = $default[$type]['tagtype'];
+			unset($default[$type]['tagtype']);
+		} else {
+			$tagtype = 'span';
+		}
+
+		$options = array_merge($default[$type], (array)$options);
 		$strLabel = "";
 
 		if (!empty($options['label'])) {
@@ -107,8 +137,20 @@ class BootstrapHtmlHelper extends HtmlHelper {
 			unset($options['label']);
 		} 
 
+		/* Checkbox special type */
+		if ($type == 'checkbox') {
+			$options['class'] = ($text) ? 'icon-ok' : 'icon-remove ';
+			$text = "";
+		}
+		/* Textarea special type */
+		if ($type == 'textarea') {
+			if (!isset($options['rows'])) {
+				$options['rows'] = 3;
+			}
+		} 
+
 		$strField = parent::tag('div', 
-									parent::tag('span', $text,  $options), 
+									parent::tag($tagtype, $text,  $options), 
 										array('class'=>'controls'));
 
 		if (!empty($label)) {

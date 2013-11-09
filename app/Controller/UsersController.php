@@ -6,6 +6,17 @@ class UsersController extends AppController {
         'limit' => 10
     );
 
+    public function isAuthorized($user) {
+        if (in_array($this->action, array('login','logout','register','add'))) {
+                return true;
+        }
+        // Falta arreglar-ho!!!
+        if (in_array($this->action, array('add','index','view','delete'))) {
+                return true;
+        }
+
+        return parent::isAuthorized($user);
+    }
     public function beforeFilter() {
         parent::beforeFilter();
         if ($this->User->isEmpty()) {
@@ -46,7 +57,7 @@ class UsersController extends AppController {
         if ($this->request->is('post')) {
             $this->User->create();
             if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved', 'flash_success'));
+                $this->Session->setFlash(__('The user has been saved'), 'flash_success');
                 $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'flash_fail');

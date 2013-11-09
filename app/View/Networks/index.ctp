@@ -18,9 +18,11 @@
 		<td><?php echo h($network['Network']['bitmask']); ?>&nbsp;</td>
 		<td><?php echo ($network['Network']['trustednodes'])?"Yes":"No"; ?></td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $network['Network']['id']), array('class'=> 'btn')); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $network['Network']['id']), array('class'=> 'btn')); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $network['Network']['id']), array('class'=> 'btn') , __('Are you sure you want to delete # %s?', $network['Network']['id'])); ?>
+			<?php echo $this->Html->link("<i class='icon-file'></i>", array('action' => 'view', 
+				$network['Network']['id']), array('class'=> 'btn', 
+				'escape' => false, 'title' => __('View'))); ?>
+			<?php echo $this->Html->link("<i class='icon-pencil'></i>", array('action' => 'edit', $network['Network']['id']), array('class'=> 'btn', 'escape' => false , 'title' => __('Edit'))); ?>
+			<?php echo $this->Form->postLink("<i class='icon-trash'></i>", array('action' => 'delete', $network['Network']['id']), array('class'=> 'btn', 'escape' => false, 'title' => __('Delete')) , __('Are you sure you want to delete # %s?', $network['Network']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -29,5 +31,5 @@
 
 </div>
 <div class="actions">
-	<?php echo $this->Html->link(__('New Network'), array('action' => 'add'), array('class'=> 'btn')); ?>
+	<?php echo $this->Html->link("<i class='icon-edit'></i> ".__('New Network'), array('action' => 'add'), array('class'=> 'btn', 'escape' => false)); ?>
 </div>

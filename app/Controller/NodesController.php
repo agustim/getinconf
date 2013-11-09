@@ -5,24 +5,25 @@ class NodesController extends AppController {
  * Authorized
  */
 
-        public function isAuthorized($user) {
-        // All registered users can add nodes 
-                if (in_array($this->action, array('index','add'))) {
-                        return true;
-                }
+    public function isAuthorized($user) {
+    // All registered users can add nodes 
+            if (in_array($this->action, array('index','add'))) {
+                    return true;
+            }
 
-        // The owner of a node can edit and delete it
-                if (in_array($this->action, array('edit', 'delete', 'view', 'configure'))) {
-                        $nodeId = $this->request->params['pass'][0];
-                        if ($this->Node->isOwnedBy($nodeId, $user)) {
-                                return true;
-                        }
-                }
+    // The owner of a node can edit and delete it
+            if (in_array($this->action, array('edit', 'delete', 'view', 'configure'))) {
+                    $nodeId = $this->request->params['pass'][0];
+                    if ($this->Node->isOwnedBy($nodeId, $user)) {
+                            return true;
+                    }
+            }
 
         return parent::isAuthorized($user);
 	}
 
     	public function beforeFilter() {
+    		$this->log('beforeFilter');
         	parent::beforeFilter();
        		$this->Auth->allow('get','get2');
     	}
@@ -33,6 +34,7 @@ class NodesController extends AppController {
 	}
 
 	public function view($id = null) {
+		$this->log('View '.$id);
 		$this->Node->id = $id;
 		if (!$this->Node->exists()) {
 			throw new NotFoundException(__('Invalid node'));
@@ -45,6 +47,7 @@ class NodesController extends AppController {
 	           ($this->Auth->user('role') == 'admin')) {
 			$this->Session->write('Network.id',$network_id);
 		} else {
+			$this->Session->setFlash(__('The Node can not create in this Network because this Network not yours.'), 'flash_fail');
 			$this->redirect(array('controller'=>'networks','action' => 'index'));
 		}
 		if ($this->request->is('post') && $this->Session->check('Network.id')) {
@@ -66,6 +69,16 @@ class NodesController extends AppController {
 		if (!$this->Node->exists()) {
 			throw new NotFoundException(__('Invalid node'));
 		}
+		/* It's owner of node? 
+		$this->Node->unbindModel(array('belongsTo' => array('Network')));
+		if (($this->Node->find('count',
+				array('conditions' => array('Node.user_id'=>$this->Auth->user('id'),'Node.id' => $id))) == 0) &&
+	           ($this->Auth->user('role') != 'admin')) {
+			$this->Session->setFlash(__('The node does not belong you.'), 'flash_fail');
+			$this->redirect(array('controller'=>'networks','action' => 'index'));
+		}
+		*/
+
 		if (($this->request->is('post') || $this->request->is('put')) && $this->Session->check('Network.id')) {
 			$this->request->data['Node']['network_id'] = $this->Session->read('Network.id');
 			if ($this->Node->save($this->request->data)) {
@@ -78,6 +91,7 @@ class NodesController extends AppController {
 			$this->request->data = $this->Node->read(null, $id);
 			$this->Session->write('Network.id',$this->request->data['Node']['network_id']);
 		}
+		$this->set('network_id', $this->request->data['Node']['network_id']);
 	}
 
 	public function delete($id = null) {
