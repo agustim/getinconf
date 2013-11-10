@@ -1,3 +1,4 @@
+
 <div class="networks index">
 	<h2><?php echo __('Networks'); ?></h2>
 	<table cellpadding="0" cellspacing="0" class="table table-bordered table-striped">
@@ -7,6 +8,13 @@
 			<th><?php echo $this->Paginator->sort('netmask'); ?></th>
 			<th><?php echo $this->Paginator->sort('bitmask'); ?></th>
 			<th><?php echo $this->Paginator->sort('trustednodes','Trusted'); ?></th>
+			<?php
+			if ( AuthComponent::user('role') == 'admin' ) {
+			?>
+			<th><?php echo $this->Paginator->sort('user_id','User'); ?></th>
+			<?php
+			}
+			?>
 			<th class="actions"><?php echo __(''); ?></th>
 	</tr>
 	<?php
@@ -17,6 +25,13 @@
 		<td><?php echo h($network['Network']['netmask']); ?>&nbsp;</td>
 		<td><?php echo h($network['Network']['bitmask']); ?>&nbsp;</td>
 		<td><?php echo ($network['Network']['trustednodes'])?"Yes":"No"; ?></td>
+		<?php
+		if ( AuthComponent::user('role') == 'admin' ) {
+		?>
+		<td><?php echo h($network['User']['username']); ?></td>
+		<?php
+		}
+		?>
 		<td class="actions">
 			<?php echo $this->Html->link("<i class='icon-file'></i>", array('action' => 'view', 
 				$network['Network']['id']), array('class'=> 'btn', 

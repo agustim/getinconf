@@ -117,27 +117,26 @@ class NodesController extends AppController {
 		if (!$this->Node->exists()) {
 			throw new NotFoundException(__('Invalid node'));
 		}
-		$this->Node->unbindModel(
-			array('hasMany' => array('Connectto','Connectfrom'))
-			);
 		$this->set('allconfig',$allconfig);
 		$this->set('encrypt', $encrypt);
 		$node = $this->Node->read(null, $id);
 		$this->set('node', $node);
-		if($node['Network']['automaticconnectto']) {
-			if ($node['Node']['is_gateway']) {
-				//$this->set('connectfrom',$this->Node->query("select Node.* from node Node where Node.network_id = ".$node['Node']['network_id']." and Node.id <> ".$id." and Node.address <> '' and Node.address is not null"));
-				$this->set('connectfrom',$this->Node->query("select Node.* from node Node where Node.network_id = ".$node['Node']['network_id']." and Node.id <> ".$id));
-			} else {
-				$this->set('connectfrom',$this->Node->query("select Node.* from node Node where Node.network_id = ".$node['Node']['network_id']." and Node.is_gateway"));
-			}
-		} else {
-			$this->set('connectfrom',$this->Node->query("select Node.* from connect c inner join node Node on (c.node_connectto_id = Node.id) where c.node_id = $id"));
-		}
-		$this->set('connectto',$this->Node->query("select Node.* from connect c inner join node Node on (c.node_id = Node.id) where c.node_connectto_id = $id"));
+		$this->Node->unbindModel(
+			array('belongsTo' => array ('Network'))
+			);
+		$this->set('connectto', $this->Node->find('all',
+				array('recursive'=>0,
+					  'conditions'=>array(
+					  		'Node.network_id' => $node['Node']['network_id'], 
+					  		'Node.id !=' => $node['Node']['id']
+					  		)
+					  )
+					)
+			);
 		$this->response->type('text');
-		//$this->layout='ajax';
 		$this->render('genscript','ajax');
+		Configure::write('debug', 0);
+		//$this->render('genscript');
 	}
 
 	public function configure($id = null, $allconfig = 1, $encrypt = 1) {

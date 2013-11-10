@@ -29,10 +29,20 @@ class NetworksController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Network->recursive = 0;
+		//$this->Network->recursive = 0;
+		$this->Network->unbindModel(
+			array('hasMany' => array ('Node'))
+			);
 		if($this->Auth->user('role') != "admin"){
 			$this->set('networks', $this->paginate(array('Network.user_id'=>$this->Auth->user('id'))));
 		} else {
+			$this->Network->bindModel(
+				array('belongsTo' => 
+						array( 'User' => array('className' => 'User', 
+											   'foreignKey' => 'user_id')
+						)
+					)
+				);
 			$this->set('networks', $this->paginate());
 		}
 	}

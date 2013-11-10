@@ -7,11 +7,11 @@ class UsersController extends AppController {
     );
 
     public function isAuthorized($user) {
-        if (in_array($this->action, array('login','logout','register','add'))) {
+        if (in_array($this->action, array('login','logout','register'))) {
                 return true;
         }
         // Falta arreglar-ho!!!
-        if (in_array($this->action, array('add','index','view','delete'))) {
+        if ( $user['role'] == 'admin' && in_array($this->action, array('add','index','view','delete'))) {
                 return true;
         }
 
