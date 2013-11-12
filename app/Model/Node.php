@@ -36,7 +36,7 @@ class Node extends AppModel {
 	public function beforeSave( $options = array() ) {
 		$this->Network->recursive = 0;
 		$net_key = $this->Network->find('first',array('fields'=>array('Network.internalkey','Network.name'),'conditions'=>array('Network.id'=>$this->data['Node']['network_id'])));
-		$this->data['Node']['hash_mac'] = md5(strtoupper(trim($this->data['Node']['mac'])).$net_key['Network']['internalkey'].$net_key['Network']['name']."\n");
+		$this->data['Node']['hash_mac'] = md5(strtoupper(trim($this->data['Node']['mac'])).$net_key['Network']['internalkey'].$net_key['Network']['name']);
 	}
 
     public function isOwnedBy($node, $user) {

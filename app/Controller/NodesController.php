@@ -144,40 +144,41 @@ class NodesController extends AppController {
 		$this->_configure($id, $allconfig, $encrypt);
 
 	}
-	public function get($hash_node, $network_name = null, $mac = null, $name = null, $is_gateway = 0, $internal_ip = 0, $allconfig = 0){
-		$this->_get($hash_node, $network_name, $mac, $name, $is_gateway, $internal_ip, $allconfig, 1);	
+	public function get($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $allconfig = 0){
+		$this->_get($hash_node, $network_name, $mac, $name, $internal_ip, $allconfig, 1);	
 	}
-	public function get2($hash_node, $network_name = null, $mac = null, $name = null, $is_gateway = 0, $internal_ip = 0, $allconfig = 0){
-		$this->_get($hash_node, $network_name, $mac, $name, $is_gateway, $internal_ip, $allconfig, 0);	
+	public function get2($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $allconfig = 0){
+		$this->_get($hash_node, $network_name, $mac, $name, $internal_ip, $allconfig, 0);	
 	}
 
 
-	public function _get($hash_node, $network_name = null, $mac = null, $name = null, $is_gateway = 0, $internal_ip = 0, $allconfig = 0, $encrypt = 1){
+	public function _get($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $allconfig = 0, $encrypt = 1){
 
 		$filename = "rsakeypub";
-		
+	
+		// Depen del webserver no pots passar paramteres amb dos punts, per tant a la mac convertirem un - per :
+
+		$mac = str_replace("-",":",$mac);	
 		// Si el sistema es trusted node, no hem de buscar-lo...
 
 		$node = $this->Node->find('first',array('conditions'=> array('Node.hash_mac' => $hash_node)));
 		
 		if (!$this->request->is('post')) {
 			if(!$node) {
-				echo "Sorry Non-POST call & Non-exist Node.";
+				echo "Sorry Non-POST call & Non-exist Node.\n";
 				exit(0);
 			} else {
 				$this->_configure($node['Node']['id'],$allconfig,$encrypt);
 			}
 			return(0);
 		}
-  
 		$this->Node->Network->recursive = 0;
 		$network = $this->Node->Network->find('first',array('conditions'=>array('Network.name'=>$network_name)));
-	 	if(!$node) {
-			// El sistema es trusted node?
+	 	if(!$node || empty($node)) {
 			if ( ($network['Network']['trustednodes']) && 
 			    ($network_name != null) && 
 			    ($mac != null) &&
-			    (md5(strtoupper(trim($mac)).$network['Network']['internalkey'].$network_name."\n") == $hash_node) 
+			    (md5(strtoupper(trim($mac)).$network['Network']['internalkey'].$network_name) == $hash_node) 
 			) {
 				//Creem el mínim de les dades.
 				$node = array('Node'=>
@@ -187,16 +188,15 @@ class NodesController extends AppController {
 					'device'=>'/dev/net/tun',
 					'bitmask' => 32,
 					'ip' => $this->_nextIP($network['Network']['id']),
-					'network_id'=>$network['Network']['id'],
-					'is_gateway'=>$is_gateway
+					'network_id'=>$network['Network']['id']
 					)
 				);
 				if($internal_ip != 0) { $node['Node']['address'] = $internal_ip; }
                         	$this->Node->create();
 			} else {
 				throw new MethodNotAllowedException();
-			/*	echo md5(strtoupper(trim($mac)).$network['Network']['internalkey'].$network_name."\n");
-				exit(0);*/
+				//echo md5(strtoupper(trim($mac)).$network['Network']['internalkey'].$network_name."\n");
+				//exit(0);
 			}
 		}
 		/* Define Node Name */
@@ -215,7 +215,7 @@ class NodesController extends AppController {
 			fclose($fp);
 			$node['Node']['rsakeypub'] = $content;
 		}
-                if ($this->Node->save($node)) {
+        if ($this->Node->save($node)) {
 			$id =  (isset($node['Node']['id']))?$node['Node']['id']:$this->Node->id; 
 			$this->_configure($id,$allconfig,$encrypt);
                 } else {
@@ -237,9 +237,14 @@ class NodesController extends AppController {
 		$broadcast = ip2long('255.255.255.255');
 		$broadcast = ~($broadcast << (32 - (int) $network['Network']['bitmask']));
 		$ip_net_max = $ip_net |  $broadcast;
-		$max_ip_exist = ip2long($max_ip_node['Node']['ip']);
+		if (empty($max_ip_node)) {
+			$max_ip_exist = $ip_net;
+		} else {
+			$max_ip_exist = ip2long($max_ip_node['Node']['ip']);
+		}
 		if (($max_ip_exist + 1) >= $ip_net_max ) { 
 			// Es major el ip_net_max, buscar una ip lliure en el seu rang?
+			// Pensar l'algorisme!!!
 		} else {
 			return long2ip($max_ip_exist+1);
 		}
