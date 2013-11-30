@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rm getinconf.empty.db
+echo ".s"|sqlite3 getinconf.db|sqlite3 getinconf.empty.db
+

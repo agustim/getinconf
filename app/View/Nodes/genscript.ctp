@@ -18,7 +18,7 @@
 			}
 		}
 		$pagecode .= "Device=".$node['Node']['device']."\n";
-		$pagecode .= "Mode=switch\n";
+		$pagecode .= "Mode=".$node['Network']['mode']."\n";
 		$pagecode .= "Name=".$node['Node']['name']."\n";
 		$pagecode .= "PrivateKeyFile=/etc/tinc/rsa_key.priv\n";
 		$pagecode .= "EOF\n";

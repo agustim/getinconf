@@ -187,7 +187,7 @@ class NodesController extends AppController {
 					'name'=>"",
 					'device'=>'/dev/net/tun',
 					'bitmask' => 32,
-					'ip' => $this->_nextIP($network['Network']['id']),
+					'ip' => $this->_nextIPv4($network['Network']['id']),
 					'network_id'=>$network['Network']['id']
 					)
 				);
@@ -223,7 +223,7 @@ class NodesController extends AppController {
 		}
 	}
 	
-	public function _nextIP($network_id = null) {
+	public function _nextIPv4($network_id = null) {
 		/* Recuperar la IP de la xarxa */
 		/* Passar a ip2long */
 		$this->Node->Network->recursive = 0;

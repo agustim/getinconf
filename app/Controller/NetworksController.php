@@ -14,7 +14,7 @@ class NetworksController extends AppController {
     	// The owner of a post can edit and delete it
     		if (in_array($this->action, array('edit', 'delete','view'))) {
         		$netId = $this->request->params['pass'][0];
-        		if ($this->Network->isOwnedBy($netId, $user['id'])) {
+        		if (($this->Network->isOwnedBy($netId, $user['id'])) || ($user['role'] == 'admin')) {
             			return true;
         		}
     		}
@@ -60,7 +60,7 @@ class NetworksController extends AppController {
 			throw new NotFoundException(__('Invalid network'));
 		}
 		$network = $this->Network->read(null, $id);
-		if ($network['Network']['user_id'] != $this->Auth->user('id')){
+		if (($network['Network']['user_id'] != $this->Auth->user('id')) && ( $this->Auth->user('role') != 'admin')){
 			$this->Session->setFlash(__('The network does not belong you.'), 'flash_fail');
 			$this->redirect(array('action' => 'index'));		
 		}
