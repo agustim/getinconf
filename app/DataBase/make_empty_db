@@ -2,4 +2,5 @@
 
 rm getinconf.empty.db
 echo ".s"|sqlite3 getinconf.db|sqlite3 getinconf.empty.db
+chown www-data:www-data getinconf.empty.db
 

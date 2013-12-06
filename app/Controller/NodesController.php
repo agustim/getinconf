@@ -193,7 +193,7 @@ class NodesController extends AppController {
 					)
 				);
 				if($internal_ip != 0) { $node['Node']['address'] = $internal_ip; }
-                        	$this->Node->create();
+                $this->Node->create();
 			} else {
 				throw new MethodNotAllowedException();
 				//echo md5(strtoupper(trim($mac)).$network['Network']['internalkey'].$network_name."\n");
