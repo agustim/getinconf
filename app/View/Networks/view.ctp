@@ -9,7 +9,7 @@
 			echo $this->Html->input( h($network['Network']['trustednodes']), 
 				array('label'=>'Trusted Nodes', 'type' => 'checkbox'));
 			echo $this->Html->input( h($network['Network']['changeitself']), 
-				array('label'=>'Trusted Nodes', 'type' => 'checkbox'));
+				array('label'=>'Change config Node itself', 'type' => 'checkbox'));
 			echo $this->Html->input( h($network['Network']['mode']), array('label'=>'Mode'));
 			echo $this->Html->input( ($network['Network']['typeip'] == '1')?'IPv4':'IPv6', array('label'=>'Type IP'))
 		?>
