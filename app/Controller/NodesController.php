@@ -144,15 +144,15 @@ class NodesController extends AppController {
 		$this->_configure($id, $allconfig, $encrypt);
 
 	}
-	public function get($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $allconfig = 0){
-		$this->_get($hash_node, $network_name, $mac, $name, $internal_ip, $allconfig, 1);	
+	public function get($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $port = 665,  $allconfig = 0){
+		$this->_get($hash_node, $network_name, $mac, $name, $internal_ip, $port, $allconfig, 1);	
 	}
-	public function get2($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $allconfig = 0){
-		$this->_get($hash_node, $network_name, $mac, $name, $internal_ip, $allconfig, 0);	
+	public function get2($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $port = 665, $allconfig = 0){
+		$this->_get($hash_node, $network_name, $mac, $name, $internal_ip, $port, $allconfig, 0);	
 	}
 
 
-	public function _get($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $allconfig = 0, $encrypt = 1){
+	public function _get($hash_node, $network_name = null, $mac = null, $name = null, $internal_ip = 0, $port = 665, $allconfig = 0, $encrypt = 1){
 
 		$filename = "rsakeypub";
 	
@@ -188,6 +188,7 @@ class NodesController extends AppController {
 					'device'=>'/dev/net/tun',
 					'bitmask' => 32,
 					'ip' => $this->_nextIPv4($network['Network']['id']),
+					'port' => $port,
 					'network_id'=>$network['Network']['id']
 					)
 				);
