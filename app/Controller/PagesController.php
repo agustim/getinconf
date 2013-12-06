@@ -52,10 +52,10 @@ class PagesController extends AppController {
  */
   public function beforeFilter() {
       parent::beforeFilter();
-      $this->Auth->allow('display','theme');             
+      $this->Auth->allow('display','theme','ip');             
   }
 
-/**
+/**''
  * Displays a view
  *
  * @param mixed What page to display
@@ -87,5 +87,9 @@ class PagesController extends AppController {
 		$this->set('theme',$name);
 		$this->Session->write('Layout.theme',$name);
 		$this->redirect($this->referer());
+	}
+
+	public function ip(){
+		$this->render('ip','ajax');
 	}
 }

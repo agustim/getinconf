@@ -1,5 +1,21 @@
 <?php
 
+function write_node ($node, $network, $tincp) {
+	$ret = "";
+    $ret .= "cat > ".$tincp.$network['Network']['name']."/hosts/".$node['Node']['name']." <<EOF\n";
+    $ret .= "Compression=10\n";
+
+    if($node['Node']['address']) { 
+    	$ret .= "Address=".$node['Node']['address']."\n"; 
+    	if($node['Node']['port'] != 665) { 
+    		$ret .= "Port=".$node['Node']['port']."\n"; 
+    	}
+    }
+    $ret .= "\n";
+    $ret .= $node['Node']['rsakeypub']."\n";
+    $ret .= "EOF\n";
+    return $ret;
+}
 	//Debugger::dump($_SERVER);
 	//echo "PATH:".ROOT.DS.APP_DIR.DS."Exec".DS."\n";
 
@@ -13,7 +29,7 @@
 		$pagecode .=  "cat > ".$tincpath.$node['Network']['name']."/tinc.conf <<EOF\n";
 
 		foreach($connectto as $cnode) {
-			if ($cnode['Node']['rsakeypub'] != "" ) {
+			if ($cnode['Node']['rsakeypub'] != ""  && $cnode['Node']['address'] != "") {
 				$pagecode .=  "ConnectTo=".$cnode['Node']['name']."\n";
 			}
 		}
@@ -40,23 +56,11 @@
 	/* All nodes to connect you node */
         foreach($connectto as $cnode) {
                 if ($cnode['Node']['rsakeypub'] != "" ) {
-                        $pagecode .= "cat > ".$tincpath.$node['Network']['name']."/hosts/".$cnode['Node']['name']." <<EOF\n";
-                        $pagecode .= "Compression=10\n";
-                        //$pagecode .= "Subnet=".$cnode['Node']['ip']."/".$cnode['Node']['bitmask']."\n";
-                        if($cnode['Node']['address']) { $pagecode .= "Address=".$cnode['Node']['address']."\n"; }
-                        $pagecode .= "\n";
-                        $pagecode .= $cnode['Node']['rsakeypub']."\n";
-                        $pagecode .= "EOF\n";
+                	$pagecode .= write_node($cnode, $node, $tincpath);
                 }
         }
 	if($allconfig == 1) {
-        	$pagecode .= "cat > ".$tincpath.$node['Network']['name']."/hosts/".$node['Node']['name']." <<EOF\n";
-        	$pagecode .= "Compression=10\n";
-        	//$pagecode .= "Subnet=".$node['Node']['ip']."/".$node['Node']['bitmask']."\n";
-        	if($node['Node']['address']) {$pagecode .=  "Address=".$node['Node']['address']."\n"; }
-        	$pagecode .= "\n";
-        	$pagecode .= $node['Node']['rsakeypub']."\n";
-        	$pagecode .= "EOF\n";
+		$pagecode .= write_node($node,$node,$tincpath);
 	}
 	$pagecode .= "\n# End Of Script.\n";
 	if (!$encrypt) {
@@ -76,4 +80,6 @@
 		//borrar temporal
 		unlink ($temp_file);
 	}
+
+
 ?>

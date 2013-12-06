@@ -8,6 +8,7 @@
 			<th><?php echo $this->Paginator->sort('netmask'); ?></th>
 			<th><?php echo $this->Paginator->sort('bitmask'); ?></th>
 			<th><?php echo $this->Paginator->sort('trustednodes','Trusted'); ?></th>
+			<?php /*<th><?php echo $this->Paginator->sort('changeitself','Change Itself'); ?></th> */ ?>
 			<th><?php echo $this->Paginator->sort('mode','Mode'); ?></th>
 			<th><?php echo $this->Paginator->sort('typeip','IP Type'); ?></th>
 			<?php
@@ -26,7 +27,8 @@
 		<td><?php echo h($network['Network']['ip']); ?>&nbsp;</td>
 		<td><?php echo h($network['Network']['netmask']); ?>&nbsp;</td>
 		<td><?php echo h($network['Network']['bitmask']); ?>&nbsp;</td>
-		<td><?php echo ($network['Network']['trustednodes'])?"Yes":"No"; ?></td>
+		<td><?php echo ($network['Network']['trustednodes'])?__("Yes"):__("No"); ?></td>
+		<?php /*<td><?php echo ($network['Network']['changeitself'])?__("Yes"):__("No"); ?></td> */ ?>
 		<td><?php echo h($network['Network']['mode']); ?>&nbsp;</td>
 		<td><?php echo ($network['Network']['typeip']==1)?"IPv4":"IPv6"; ?></td>
 		<?php

@@ -8,6 +8,7 @@
 			echo $this->Html->input( h($node['Node']['ip']), array('label'=>'Tinc IP'));
 			echo $this->Html->input( h($node['Node']['bitmask']), array('label'=>'Bitmask'));
 			echo $this->Html->input( h($node['Node']['address']), array('label'=>'IP Community Node'));
+			echo $this->Html->input( h($node['Node']['port']), array('label'=>'Port'));
 			echo $this->Html->input(
 				$this->Html->link($node['Network']['name'], array('controller' => 'networks', 'action' => 'view', $node['Network']['id'])), 
 				array('label'=>'Network', 'type' => 'link')); 

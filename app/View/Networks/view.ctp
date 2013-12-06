@@ -8,6 +8,8 @@
 			echo $this->Html->input( h($network['Network']['internalkey']), array('label'=>'Interal Key'));
 			echo $this->Html->input( h($network['Network']['trustednodes']), 
 				array('label'=>'Trusted Nodes', 'type' => 'checkbox'));
+			echo $this->Html->input( h($network['Network']['changeitself']), 
+				array('label'=>'Trusted Nodes', 'type' => 'checkbox'));
 			echo $this->Html->input( h($network['Network']['mode']), array('label'=>'Mode'));
 			echo $this->Html->input( ($network['Network']['typeip'] == '1')?'IPv4':'IPv6', array('label'=>'Type IP'))
 		?>
@@ -32,6 +34,7 @@
 		<th><?php echo __('Mac'); ?></th>
 		<th><?php echo __('Ip'); ?></th>
 		<th><?php echo __('Address'); ?></th>
+		<th><?php echo __('Port'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -42,6 +45,7 @@
 			<td><?php echo $node['mac']; ?></td>
 			<td><?php echo $node['ip']; ?>/<?php echo $node['bitmask']; ?></td>
 			<td><?php echo $node['address']; ?></td>
+			<td><?php echo $node['port']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link("<i class='icon-eye-open'></i>", 
 				array('controller' => 'nodes', 'action' => 'view', $node['id']),

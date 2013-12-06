@@ -11,6 +11,7 @@
 		echo $this->Form->input('ip', array('label'=>'Tinc IP'));
 		echo $this->Form->input('bitmask');
 		echo $this->Form->input('address', array('label'=>'IP Community Node'));
+		echo $this->Form->input('port');
 	?>
 	</fieldset>
       <div class="form-actions">
