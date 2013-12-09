@@ -1,4 +1,4 @@
-#BootCakeStrap
+#GeTINConf Server
 
 A compilation of some software to start developing in CakePHP environment, with:
 
@@ -18,21 +18,17 @@ A compilation of some software to start developing in CakePHP environment, with:
 In a webserver path:
 
 	# Clone Repository
-	git clone https://github.com/agustim/bootcakestrap.git <myapp>
+	git clone https://github.com/agustim/getinconf.git <myapp>
 	cd <myapp>
 	cd app
 	# Create database
-	echo "create database <mydatabase>" | mysql -u root -p
+	cp DataBase/getinconf.empty.db DataBase/getinconf.db
 	# Rename config database file
 	mv Config/database.php.default Config/database.php
-	# Change databasename
-	sed -i -r "s/default_database_name/<mydatabase>/" Config/database.php
-	# Create Table
-	Console/cake schema create --file users.php
 	# Change 'Security.salt' and 'Security.cipherSeed' in file <myapp>/app/Config/core.php:
  	cd Config
-	sed -i -r "s/DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi/`date +%s | md5sum | base64 | head -c 40`/" core.php
-	sed -i -r "s/76859309657453542496749683645/`date +%s | md5sum | head -c 29`/" core.php
+	sed -i -r "s/YmU1ZDUyMmQyNTg1NjM5ODg3ZDI5MDEyMzJhNTE4/`date +%s | md5sum | base64 | head -c 40`/" core.php
+	sed -i -r "s/b6823eb774c58c3954abf52209640/`date +%s | md5sum | head -c 29`/" core.php
 	cd ..
 
 ##Setup
