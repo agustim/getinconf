@@ -174,6 +174,9 @@ class NodesController extends AppController {
 		}
 		$this->Node->Network->recursive = 0;
 		$network = $this->Node->Network->find('first',array('conditions'=>array('Network.name'=>$network_name)));
+		if (!$network) {
+			throw new ForbiddenException(__('Invalid network'));
+		}
 	 	if(!$node || empty($node)) {
 			if ( ($network['Network']['trustednodes']) && 
 			    ($network_name != null) && 
@@ -204,6 +207,17 @@ class NodesController extends AppController {
 		if ($name == null) {
 			$name = $node['Network']['name'].substr($hash_node,-6); 
 		}
+		/* Correct name */
+		$name = $this->_fix_name($name);
+		/* Check doesn't exist same name. */
+		$contador = 0;
+		$tmpname = $name;
+		while ($this->Node->find('count',array('conditions'=> array('Node.name' => $name, 'Node.network_id' => $network['Network']['id']))) > 0 )
+		{
+			$name = $tmpname . $contador;
+			$contador++;
+		}
+
 		if ($node['Node']['name'] == "") {
 			$node['Node']['name']=$name;
 		}
@@ -249,5 +263,10 @@ class NodesController extends AppController {
 		} else {
 			return long2ip($max_ip_exist+1);
 		}
+	}
+	public function _fix_name($name = null){
+		$orig = array ('-', '.' );
+		$chng = array('_','_');
+		return str_replace($orig, $chng, $name);
 	}
 }

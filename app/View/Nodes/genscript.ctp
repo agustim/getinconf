@@ -36,6 +36,9 @@ function write_node ($node, $network, $tincp) {
 		$pagecode .= "Device=".$node['Node']['device']."\n";
 		$pagecode .= "Mode=".$node['Network']['mode']."\n";
 		$pagecode .= "Name=".$node['Node']['name']."\n";
+    	if($node['Node']['port'] != 665) { 
+    		$pagecode .= "Port=".$node['Node']['port']."\n"; 
+    	}
 		$pagecode .= "PrivateKeyFile=/etc/tinc/rsa_key.priv\n";
 		$pagecode .= "EOF\n";
 		$pagecode .= "cat > ".$tincpath.$node['Network']['name']."/tinc-up <<EOF\n";
