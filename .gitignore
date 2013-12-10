@@ -6,4 +6,5 @@ app/tmp/*
 app/[Cc]onfig/core.php
 app/[Cc]onfig/database.php
 app/DataBase/getinconf.db
+app/webroot/files/*
 !empty
