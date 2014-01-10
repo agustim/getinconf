@@ -189,7 +189,8 @@ Configure::write(
 		'client' => 'GeTINConf',
 		'client_url' => 'http://github.com/agustim/getinconf',
 		'from_email' => 'from@your_app_domain.com',
-		'contact_mail' => 'contact@your_app_domain.com'
+		'contact_mail' => 'contact@your_app_domain.com',
+		'urls_servers' => array('http://vpn.qmp.cat/index.php' => 'http://vpn.qmp.cat/index.php', 'http://10.139.40.84/index.php' => 'http://10.139.40.84/index.php')
 	)
 );
 

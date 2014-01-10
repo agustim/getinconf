@@ -163,7 +163,7 @@ class NodesController extends AppController {
 
 		$node = $this->Node->find('first',array('conditions'=> array('Node.hash_mac' => $hash_node)));
 		
-		if (!$this->request->is('post')) {
+	/*	if (!$this->request->is('post')) {
 			if(!$node) {
 				echo "Sorry Non-POST call & Non-exist Node.\n";
 				exit(0);
@@ -171,7 +171,7 @@ class NodesController extends AppController {
 				$this->_configure($node['Node']['id'],$allconfig,$encrypt);
 			}
 			return(0);
-		}
+		}*/
 		$this->Node->Network->recursive = 0;
 		$network = $this->Node->Network->find('first',array('conditions'=>array('Network.name'=>$network_name)));
 		if (!$network) {

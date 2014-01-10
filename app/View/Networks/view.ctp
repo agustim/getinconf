@@ -10,6 +10,7 @@
 				array('label'=>'Trusted Nodes', 'type' => 'checkbox'));
 			echo $this->Html->input( h($network['Network']['changeitself']), 
 				array('label'=>'Change config Node itself', 'type' => 'checkbox'));
+			echo $this->Html->input( h($network['Network']['urlserver']), array('label'=>'Server URL'));
 			echo $this->Html->input( h($network['Network']['mode']), array('label'=>'Mode'));
 			echo $this->Html->input( ($network['Network']['typeip'] == '1')?'IPv4':'IPv6', array('label'=>'Type IP'))
 		?>
@@ -20,10 +21,11 @@
 			array('class'=>'btn','title'=>__('Edit Network'),'escape' => false)); ?>
 	<?php echo $this->Form->postLink("<i class='icon-trash'></i> ".__('Delete Network'), 
 			array('action' => 'delete', $network['Network']['id']), 
-			array('class'=>'btn','title'=>__('Delete Network'),'escape' => false) , __('Are you sure you want to delete # %s?', $network['Network']['id'])); ?>
+			array('class'=>'btn','title'=>__('Delete Network'),'escape' => false) , __('Are you sure you want to delete # %s?', $network['Network']['name'])); ?>
 	<?php echo $this->Html->link("<i class='icon-list'></i> ".__('List Networks'), 
 			array('action' => 'index'), 
 			array('class'=>'btn','title'=>__('List Networks'),'escape' => false));  ?>
+	<?php echo "<a class='btn' 'title'='".__('Download Client DEB Package')."' href='".$this->Html->webroot('/files/getinconf-client_0.1-1_all.deb')."'><i class='icon-hdd'></i> ".__('Download Client DEB Package')."</a>";  ?>
 </div>
 <div class="related">
 	<h3><?php echo __('Nodes'); ?></h3>
@@ -41,7 +43,11 @@
 		$i = 0;
 		foreach ($network['Node'] as $node): ?>
 		<tr>
-			<td><?php echo $node['name']; ?></td>
+			<td><?php 
+			if ($node['isgetinconfserver'] == 1) echo "<em>";
+			echo $node['name']; 
+			if ($node['isgetinconfserver'] == 1) echo "</em>";
+			?></td>
 			<td><?php echo $node['mac']; ?></td>
 			<td><?php echo $node['ip']; ?>/<?php echo $node['bitmask']; ?></td>
 			<td><?php echo $node['address']; ?></td>

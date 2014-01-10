@@ -12,7 +12,7 @@ class NetworksController extends AppController {
     		}
 
     	// The owner of a post can edit and delete it
-    		if (in_array($this->action, array('edit', 'delete','view'))) {
+    		if (in_array($this->action, array('edit', 'delete','view','makepkg'))) {
         		$netId = $this->request->params['pass'][0];
         		if (($this->Network->isOwnedBy($netId, $user['id'])) || ($user['role'] == 'admin')) {
             			return true;
@@ -83,6 +83,7 @@ class NetworksController extends AppController {
 				$this->Session->setFlash(__('The network could not be saved. Please, try again.'));
 			}
 		}
+		//$this->set('urlservers', Configure::read('Application.urls_servers'));
 	}
 
 /**
@@ -132,5 +133,30 @@ class NetworksController extends AppController {
 		}
 		$this->Session->setFlash(__('Network was not deleted'));
 		$this->redirect(array('action' => 'index'));
+	}
+
+
+	public function makepkg($id = null) {
+		$this->Network->id = $id;
+		if (!$this->Network->exists()) {
+			throw new NotFoundException(__('Invalid network'));
+		}
+		$network = $this->Network->read(null, $id);
+		if (($network['Network']['user_id'] != $this->Auth->user('id')) && ( $this->Auth->user('role') != 'admin')){
+			$this->Session->setFlash(__('The network does not belong you.'), 'flash_fail');
+			$this->redirect(array('action' => 'index'));		
+		}
+		
+		$GTCCPATH = ROOT.DS.APP_DIR.DS."Exec".DS."getinconf-client".DS;
+		$CMDCLEAN = "make -C $GTCCPATH cleanpkg";
+		$CMDMAKE = "SIGNED=No GTC_SERVER_URL='" . Router::url('/', true) . "' NETWORK_NAME='".$network['Network']['name']."' NETWORK_KEY='".$network['Network']['internalkey'].
+		"' make -C $GTCCPATH all_genconf;";
+		echo "<pre>";
+		//echo system($CMD);
+		$CMD = $CMDCLEAN.";".$CMDMAKE;
+		//$CMD = $GTCCPATH."doit.sh";
+		echo $CMD;
+		echo system($CMD);
+		echo "</pre>";
 	}
 }

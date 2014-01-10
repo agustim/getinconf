@@ -12,6 +12,11 @@ A compilation of some software to start developing in CakePHP environment, with:
 
 [DebugKit](https://github.com/cakephp/debug_kit.git) - Official CakePHP's Plugin to Debug.
 
+##Pre-Install
+
+If you want to GeTinConf (WebApp) make a DEB packages, you need to install some packages:
+	
+	apt-get install build-essential git dh-make pdebuild-cross
 
 ##Install
 
@@ -30,6 +35,19 @@ In a webserver path:
 	sed -i -r "s/YmU1ZDUyMmQyNTg1NjM5ODg3ZDI5MDEyMzJhNTE4/`date +%s | md5sum | base64 | head -c 40`/" core.php
 	sed -i -r "s/b6823eb774c58c3954abf52209640/`date +%s | md5sum | head -c 29`/" core.php
 	cd ..
+	cd ..
+	chown -R www-data:www-data <myapp>
+
+##Post-Install
+
+If WebApp make a DEB packages:
+
+	mkdir -p <myapp>/app/Exec/
+	cd <myapp>/app/Exec
+	git clone https://github.com/agustim/getinconf-client
+	cd ..
+	chown www-data:www-data Exec 
+
 
 ##Setup
 

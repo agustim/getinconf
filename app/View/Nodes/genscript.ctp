@@ -3,6 +3,9 @@
 function write_node ($node, $network, $tincp) {
 	$ret = "";
     $ret .= "cat > ".$tincp.$network['Network']['name']."/hosts/".$node['Node']['name']." <<EOF\n";
+    if ($network['Network']['mode'] == "router"){
+    	$ret .= "Subnet=".$node['Node']['ip']."/32\n";
+    }
     $ret .= "Compression=10\n";
 
     if($node['Node']['address']) { 

@@ -11,6 +11,7 @@
 		echo $this->Form->input('bitmask');
 		echo $this->Form->input('address', array('label'=>'IP Community Node'));
 		echo $this->Form->input('port');
+		echo $this->Form->input('isgetinconfserver', array('label'=>'Is GeTINConf-Server'));
 	?>
       <div class="form-actions">
 			<?php echo $this->Form->submit(__('Save'), array(
